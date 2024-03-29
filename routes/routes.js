@@ -41,5 +41,6 @@ router.get('/profile', verifyToken, registrationController.getUserProfile);
 
 router.post('/post', verifyToken, upload.single('photo'), postController.newPost);
 router.get('/getAllPost', verifyToken, postController.getAllPost);
+router.post('/like', verifyToken, postController.like);
 
 module.exports = router;

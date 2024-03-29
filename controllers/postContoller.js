@@ -33,13 +33,28 @@ async function newPost(req, res) {
         INSERT INTO post (user_id,photo,${current_field.join(', ')})
         VALUES (?,?,${current_field.map(() => '?').join(', ')})
        `;
-
         database.query(sql, values, (err, result) => {
             if (err) {
                 return res.status(500).json({ message: "Database Error1", err });
             }
             else {
-                res.status(200).json({ message: "Inserted" });
+
+                
+                let post_sql = `
+                INSERT INTO like_cmt
+                (post_id,like_count,comment,user_id)
+                VALUES(?,?,?,?)
+                `;
+
+                database.query(post_sql, ['', '', '', userId], (err, result) => {
+                    if (err) {
+                        return res.status(500).json({ message: "Database Error2" }, err);
+                    }
+                    else {
+                        return res.status(200).json({ message: "Inserted" });
+                    }
+                })
+
             }
         })
 
@@ -83,7 +98,25 @@ async function getAllPost(req, res) {
     }
 }
 
+
+async function like(req, res) {
+    try {
+        const user_id = req.userId;
+        const data = req.body;
+        if (data.val === 0) {
+            // decrease like
+        }
+        else {
+            //increase like
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error })
+    }
+}
+
 module.exports = {
     newPost,
-    getAllPost
+    getAllPost,
+    like
 }

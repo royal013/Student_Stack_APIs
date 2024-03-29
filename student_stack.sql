@@ -18,3 +18,11 @@ CREATE TABLE post (
     location VARCHAR(400) NOT NULL,
     tagged_friends VARCHAR(500) DEFAULT NULL
 );
+
+
+CREATE TABLE like_cmt (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    post_id INT,
+    like_count INT,
+    comment TEXT
+);
